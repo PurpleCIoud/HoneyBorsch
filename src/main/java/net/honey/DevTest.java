@@ -1,0 +1,13 @@
+package net.honey;
+
+import java.util.Arrays;
+
+public class DevTest {
+    public static void main(String[] args) {
+        PlayerField field= new PlayerField();
+        field.setField(new CardPOJO(0,0,AttackType.DIRECT,"Empty"),0,0);
+        field.getField(0,0).devAll();
+        System.out.println(Arrays.toString(field.getRow(0)));
+        System.out.println(Arrays.toString(field.getCol(0)));
+    }
+}
