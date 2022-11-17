@@ -4,24 +4,35 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 
 // This class is responsible for retrieving card data given its ID
 public class CardDataReader extends ResourceReader {
-    private JsonNode node;
+    private JsonNode jn;
     CardDataReader(String filePath) {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            node = mapper.readTree(getFileAsIOStream(filePath));
+            jn = mapper.readTree(getFileAsIOStream(filePath));
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
-    public void getFromID(int id) {
-        while (node.findValue("ids").findValue("id").asInt() == id) {
-            System.out.println(node.findValue("ids").findValue("name"));
+    public void getFromId(int id) {
+        Iterator<String> keys = jn.get(id).fieldNames();
+        while (keys.hasNext()) {
+            String s = keys.next();
+            System.out.println(s + " "+ jn.findValue(s));
+
+
         }
+
     }
 }

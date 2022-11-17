@@ -15,6 +15,7 @@ public class DevTest {
     }
     private static void testReading(){
         CardDataReader cardDataReader = new CardDataReader("CardDef.json");
-        cardDataReader.getFromID(1);
+        cardDataReader.getFromId(1);
+        cardDataReader.getFromId(0);
     }
 }
