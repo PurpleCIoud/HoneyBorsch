@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Cards>
+    <Card>
+        <name>Empty</name>
+        <baseAttack>0</baseAttack>
+        <baseDefence>0</baseDefence>
+        <attackType>DOMINO</attackType>
+        <image>none</image>
+    </Card>
+    <Card>
+        <name>Attack</name>
+        <baseAttack>75</baseAttack>
+        <baseDefence>25</baseDefence>
+        <attackType>DIRECT</attackType>
+        <image>none</image>
+    </Card>
+</Cards>

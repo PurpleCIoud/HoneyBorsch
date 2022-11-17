@@ -1,0 +1,20 @@
+{
+  "ids": [
+    {
+      "id": 0,
+      "name": "Empty",
+      "baseAttack": 50,
+      "baseHealth": 50,
+      "attackType": "DIRECT",
+      "image": null
+    },
+    {
+      "id": 1,
+      "name": "Attacker",
+      "baseAttack": 75,
+      "baseHealth": 25,
+      "attackType": "DIRECT",
+      "image": null
+    }
+  ]
+}
