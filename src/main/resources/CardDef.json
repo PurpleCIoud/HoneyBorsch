@@ -2,16 +2,16 @@
   {
     "id": 0,
     "name": "Empty",
-    "baseAttack": 50,
     "baseHealth": 50,
+    "baseAttack": 50,
     "attackType": "DIRECT",
     "image": null
   },
   {
     "id": 1,
     "name": "Attacker",
-    "baseAttack": 75,
     "baseHealth": 25,
+    "baseAttack": 75,
     "attackType": "DIRECT",
     "image": null
   }
