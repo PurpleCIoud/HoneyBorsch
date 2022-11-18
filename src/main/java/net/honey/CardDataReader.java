@@ -21,16 +21,37 @@ public class CardDataReader extends ResourceReader {
             e.printStackTrace();
         }
     }
-    public List<Object> getFromId(int id) {
+    // redundant code for an old way of getting items from list
+//    public List<Object> getFromId(int id) {
+//        JsonNode dataNode = jn.get(id);
+//        ArrayList<Object> output = new ArrayList<>();
+//        for (Iterator<String> it = dataNode.fieldNames(); it.hasNext(); ) {
+//            output.add(dataNode.get(it.next()));
+//        }
+//        System.out.println(output);
+//        return output;
+//    }
+
+    public CardPOJO getFromId(int id) {
+        // I really think there is a better way of doing this
+        // What we do is convert each item in the Iterator into the required type for card
         JsonNode dataNode = jn.get(id);
-        ArrayList<Object> output = new ArrayList<>();
-        CardPOJO card;
-        for (Iterator<String> it = dataNode.fieldNames(); it.hasNext(); ) {
-            output.add(dataNode.get(it.next()));
-        }
-        System.out.println(output);
-        return output;
+        Iterator<String> it = dataNode.fieldNames();
+        int cId = dataNode.get(it.next()).asInt();
+        String cName = dataNode.get(it.next()).asText();
+        int cBsHealth = dataNode.get(it.next()).asInt();
+        int cBsAttack = dataNode.get(it.next()).asInt();
+        AttackType cAtkType = AttackType.valueOf(dataNode.get(it.next()).asText());
+        String cImage = dataNode.get(it.next()).asText();
+        String cDesc = dataNode.get(it.next()).asText();
+        return new CardPOJO(cId,cName,cBsHealth,cBsAttack,cAtkType,cImage,cDesc);
     }
-
-
+    // this method simply returns how many Ids there are in the json file
+    public int getLength() {
+        List<JsonNode> idList = jn.findValues("id");
+        return idList.size();
+    }
+    public void printPretty() {
+        System.out.println(jn.toPrettyString());
+    }
 }

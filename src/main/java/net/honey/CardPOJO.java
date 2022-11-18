@@ -1,8 +1,6 @@
 package net.honey;
 
 import java.awt.*;
-import java.util.List;
-import java.util.Objects;
 
 public class CardPOJO {
     // initialise base variables
@@ -11,20 +9,22 @@ public class CardPOJO {
     private final int baseHealth;
     private final int baseAttack;
     private final AttackType attackType;
-    private final Image image;
+    private final String imageLink;
+    private final String description;
     private int runningHealth;
     private int runningAttack;
 
 
     // Constructor
-    public CardPOJO(int id, String name, int baseHealth, int baseAttack, AttackType attackType, Image image) {
+    public CardPOJO(int id, String name, int baseHealth, int baseAttack,
+                    AttackType attackType, String imageLink, String description) {
         this.id = id;
         this.name = name;
         this.baseHealth = baseHealth;
         this.baseAttack = baseAttack;
         this.attackType = attackType;
-        this.image = image;
-
+        this.imageLink = imageLink;
+        this.description = description;
 
         this.runningHealth = baseHealth;
         this.runningAttack = baseAttack;
@@ -48,8 +48,8 @@ public class CardPOJO {
         return attackType;
     }
 
-    public Image getImage() {
-        return image;
+    public String getImageLink() {
+        return imageLink;
     }
     public int getRunningAttack() {
         return runningAttack;
