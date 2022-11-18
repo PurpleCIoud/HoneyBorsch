@@ -4,7 +4,7 @@
     "name": "Empty",
     "baseHealth": 50,
     "baseAttack": 50,
-    "attackType": "DIRECT",
+    "attackType": "NONE",
     "image": null,
     "description": "I do nothing"
   },

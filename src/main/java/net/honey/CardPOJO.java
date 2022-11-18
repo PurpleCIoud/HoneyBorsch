@@ -40,27 +40,24 @@ public class CardPOJO {
     public int getBaseAttack() {
         return baseAttack;
     }
-
     public int getBaseHealth() {
         return baseHealth;
     }
     public AttackType getAttackType() {
         return attackType;
     }
-
     public String getImageLink() {
         return imageLink;
+    }
+    public String getDescription() {
+        return description;
     }
     public int getRunningAttack() {
         return runningAttack;
     }
-
     public int getRunningHealth() {
         return runningHealth;
     }
-
-
-
     // Setters
     public void setRunningAttack(int runningAttack) {
         this.runningAttack = runningAttack;
