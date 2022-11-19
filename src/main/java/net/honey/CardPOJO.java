@@ -1,9 +1,6 @@
 package net.honey;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-
+@SuppressWarnings("unused")
 public class CardPOJO {
     // initialise base variables
     private final int id;
