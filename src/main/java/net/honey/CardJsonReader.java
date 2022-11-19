@@ -5,13 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
-import java.util.Iterator;
-import java.util.List;
 
 // This class is responsible for retrieving card data given its ID
-public class CardDataReader extends ResourceReader {
+public class CardJsonReader extends ResourceReader {
     private JsonNode jn;
-    CardDataReader(String filePath) {
+    CardJsonReader(String filePath) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             jn = mapper.readTree(getFileAsIOStream(filePath));
@@ -34,28 +32,20 @@ public class CardDataReader extends ResourceReader {
 
     public CardPOJO getFromId(int id) {
         // I really think there is a better way of doing this
-        // What we do is convert each item in the Iterator into the required type for card
-        /*
-         @TODO BUG: Incorrect Data casting!
-         * if wrong data is inputted, the program would simply accept it, so a string
-         * "something" would be cast as the integer 0, why 0? why not null
-         */
         JsonNode dataNode = jn.get(id);
-        Iterator<String> it = dataNode.fieldNames();
 
-        int cId = dataNode.get(it.next()).asInt();
-        String cName = dataNode.get(it.next()).asText();
-        int cBsHealth = dataNode.get(it.next()).asInt();
-        int cBsAttack = dataNode.get(it.next()).asInt();
-        AttackType cAtkType = AttackType.valueOf(dataNode.get(it.next()).asText());
-        String cImage = dataNode.get(it.next()).asText();
-        String cDesc = dataNode.get(it.next()).asText();
+        int cId = dataNode.findValue("id").asInt(-1); // if the value is not an int set to -1
+        String cName = dataNode.get("name").asText(null); // if the value is not a text set null
+        int cBsHealth = dataNode.get("baseHealth").asInt(-1); // if the value is not an int set to -1
+        int cBsAttack = dataNode.get("baseAttack").asInt(-1); // if the value is not an int set to -1
+        AttackType cAtkType = AttackType.valueOf(dataNode.get("attackType").asText(null)); // if the value is not a text set null
+        String cImage = dataNode.get("image").asText(null); // if the value is not a text set null
+        String cDesc = dataNode.get("description").asText(null); // if the value is not a text set null
         return new CardPOJO(cId,cName,cBsHealth,cBsAttack,cAtkType,cImage,cDesc);
     }
     // this method simply returns how many Ids there are in the json file
     public int getLength() {
-        List<JsonNode> idList = jn.findValues("id");
-        return idList.size();
+        return jn.findValues("id").size();
     }
     // pretty printer, Wow, such cool :doge:
     public void printPretty() {

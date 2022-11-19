@@ -1,6 +1,8 @@
 package net.honey;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CardPOJO {
     // initialise base variables
@@ -31,7 +33,7 @@ public class CardPOJO {
     }
 
     // Getters
-    public int getId(){
+    public int getId() {
         return id;
     }
     public String getName() {
@@ -62,7 +64,6 @@ public class CardPOJO {
     public void setRunningAttack(int runningAttack) {
         this.runningAttack = runningAttack;
     }
-
     public void setRunningHealth(int runningHealth) {
         this.runningHealth = runningHealth;
     }
