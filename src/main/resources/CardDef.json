@@ -25,5 +25,14 @@
     "attackType": "DOMINO",
     "image": "notnull",
     "description": "I am good at Defending, not good with attacking tho"
+  },
+  {
+    "id": 3,
+    "name": "Average",
+    "baseHealth": 50,
+    "baseAttack": 50,
+    "attackType": "POISON",
+    "image": "notnull",
+    "description": "I am Ok"
   }
 ]

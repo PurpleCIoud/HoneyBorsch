@@ -1,20 +1,13 @@
 package net.honey;
 // This Class only makes a deck and has no logic of its own
 @SuppressWarnings("unused")
-public class Deck {
+public class Deck implements CardHolder{
     private final int size;
-    private int[] cardsIds;
-
-
-    // Build an empty Deck given size
-    public Deck(int size) {
-        this.cardsIds = new int[size];
-        this.size = size;
-    }
+    private int[] ids;
 
     // Build a deck from given Cards
     public Deck(int[] cardsIds) {
-        this.cardsIds = cardsIds;
+        this.ids = cardsIds;
         this.size = cardsIds.length;
     }
 
@@ -22,12 +15,16 @@ public class Deck {
     public int getSize() {
         return size;
     }
-    public int[] getCardsIds() {
-        return cardsIds;
+
+    @Override
+    public void setIds(int[] cardsIds) {
+        this.ids = cardsIds;
+    }
+
+    public int[] getIds() {
+        return ids;
     }
 
     // Setters
-    public void setCardsIds(int[] cardsIds) {
-        this.cardsIds = cardsIds;
-    }
+
 }
