@@ -5,7 +5,7 @@
     "baseHealth": 50,
     "baseAttack": 50,
     "attackType": "NONE",
-    "image": null,
+    "image": "notnull",
     "description": "I do nothing"
   },
   {
@@ -14,7 +14,16 @@
     "baseHealth": 25,
     "baseAttack": 75,
     "attackType": "DIRECT",
-    "image": null,
+    "image": "notnull",
     "description": "I am good at attacking, not good with defence tho"
+  },
+  {
+    "id": 2,
+    "name": "Defender",
+    "baseHealth": 75,
+    "baseAttack": 25,
+    "attackType": "DOMINO",
+    "image": "notnull",
+    "description": "I am good at Defending, not good with attacking tho"
   }
 ]

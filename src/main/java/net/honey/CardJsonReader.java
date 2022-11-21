@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
 // This class is responsible for retrieving card data given its ID
@@ -38,7 +39,13 @@ public class CardJsonReader extends ResourceReader {
         String cName = dataNode.get("name").asText(null); // if the value is not a text set null
         int cBsHealth = dataNode.get("baseHealth").asInt(-1); // if the value is not an int set to -1
         int cBsAttack = dataNode.get("baseAttack").asInt(-1); // if the value is not an int set to -1
-        AttackType cAtkType = AttackType.valueOf(dataNode.get("attackType").asText(null)); // if the value is not a text set null
+        AttackType cAtkType = AttackType.ERROR; // if the value is not a text set ERROR
+        for (AttackType type: AttackType.values()) {
+            if (Objects.equals(type.toString(), dataNode.get("attackType").asText())) {
+                cAtkType = AttackType.valueOf(dataNode.get("attackType").asText());
+                break;
+            }
+        }
         String cImage = dataNode.get("image").asText(null); // if the value is not a text set null
         String cDesc = dataNode.get("description").asText(null); // if the value is not a text set null
         return new CardPOJO(cId,cName,cBsHealth,cBsAttack,cAtkType,cImage,cDesc);

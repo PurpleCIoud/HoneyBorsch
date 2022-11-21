@@ -1,5 +1,4 @@
 package net.honey;
-
 @SuppressWarnings("unused")
 public class CardPOJO {
     // initialise base variables
