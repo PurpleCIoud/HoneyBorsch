@@ -2,7 +2,7 @@ package net.honey;
 
 // This Class is responsible for editing the hand
 public class HandManager{
-    private Hand hand;
+    private final Hand hand;
 
     public HandManager(Hand hand) {
         this.hand = hand;

@@ -49,4 +49,18 @@ public class DevTest {
         }
         assert !sameIdFound;
     }
+    @Test
+    // Test that Decks are properly generated
+    public void testDeckBuilding() {
+        PlayArea pa = new PlayArea();
+    }
+
+    @Test
+    // test shuffle
+    public void testShuffle() {
+        int[] ints = new int[] {0,1,2,3,4,5};
+        System.out.println(Arrays.toString(ints));
+        ArrayShuffle shuffle = new ArrayShuffle();
+        shuffle.shuffle(ints);
+    }
 }
