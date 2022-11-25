@@ -1,8 +1,5 @@
 package net.honey;
 
-import java.util.Arrays;
-import java.util.Random;
-
 public class PlayArea {
     private Hand playerHand;
     private Hand opponentHand;
@@ -22,14 +19,20 @@ public class PlayArea {
         this.graveyard = new Graveyard();
     }
 
+    // Generates a shuffled deck from scratch
     public void genDecks() {
         CardJsonReader cjr = new CardJsonReader("CardDef.json");
-        Random random = new Random();
-        int[] allCards = new int[cjr.getLength()];
-        for (int i = 0; i < allCards.length; i++) {
-            allCards[i] = cjr.getFromId(i).getId();
-        }
-
-
+        ArrayShuffler shuffler = new ArrayShuffler();
+        int[] full = cjr.getIds();
+        full = shuffler.shuffle(full);
+        int length = cjr.getLength();
+        int firstHalf = length/2;
+        int secondHalf = length - firstHalf;
+        int[] half1 = new int[firstHalf];
+        int[] half2 = new int[secondHalf];
+        System.arraycopy(full, 0, half1, 0, firstHalf);
+        System.arraycopy(full, firstHalf+1, half2, 0, secondHalf);
+        this.deck1.setIds(half1);
+        this.deck2.setIds(half2);
     }
 }

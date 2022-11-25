@@ -54,6 +54,15 @@ public class CardJsonReader extends ResourceReader {
     public int getLength() {
         return jn.findValues("id").size();
     }
+
+    // gets the list of all ids as an int[]
+    public int[] getIds() {
+        int[] ids = new int[getLength()];
+        for (int i = 0; i < getLength(); i++) {
+            ids[i] = jn.get(i).asInt();
+        }
+        return ids;
+    }
     // pretty printer, Wow, such cool :doge:
     public void printPretty() {
         System.out.println(jn.toPrettyString());

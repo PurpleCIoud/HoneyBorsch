@@ -1,12 +1,11 @@
 package net.honey;
 
-import java.util.Arrays;
 import java.util.Random;
 
-public class ArrayShuffle {
+public class ArrayShuffler {
     private int seed;
 
-    ArrayShuffle() {
+    ArrayShuffler() {
     }
 
     public int[] shuffle(int[] idList) {
@@ -21,7 +20,7 @@ public class ArrayShuffle {
         }
         return result;
     }
-
+    // Auxiliary method to "pop" an item
     private int[] removeId(int[] tempArray, int id) {
         int[] newIds = new int[tempArray.length-1];
         System.arraycopy(tempArray, 0, newIds, 0, id);

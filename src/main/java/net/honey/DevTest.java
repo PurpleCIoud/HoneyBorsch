@@ -60,7 +60,7 @@ public class DevTest {
     public void testShuffle() {
         int[] ints = new int[] {0,1,2,3,4,5};
         System.out.println(Arrays.toString(ints));
-        ArrayShuffle shuffle = new ArrayShuffle();
+        ArrayShuffler shuffle = new ArrayShuffler();
         System.out.println(Arrays.toString(shuffle.shuffle(ints)));
 
     }

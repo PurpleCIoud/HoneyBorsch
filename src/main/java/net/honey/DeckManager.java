@@ -13,7 +13,10 @@ public class DeckManager {
         deck.setIds(newIds);
         return oldIds[deck.getSize()-1];
     }
-    // This will be dealt with later as I don't have enough cards to build a deck yet
-    public void buildDeck() {
+
+    // Shuffle the deck
+    public void shuffleDeck() {
+        ArrayShuffler shuffler = new ArrayShuffler();
+        deck.setIds(shuffler.shuffle(deck.getIds()));
     }
 }
