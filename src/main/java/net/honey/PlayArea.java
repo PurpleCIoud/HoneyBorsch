@@ -8,6 +8,8 @@ public class PlayArea {
     private Field playerField;
     private Field opponentField;
     private Graveyard graveyard;
+    private int turn;
+    private int stageInTurn;
 
     public PlayArea() {
         this.playerHand = new Hand();
@@ -17,10 +19,13 @@ public class PlayArea {
         this.playerField = new Field();
         this.opponentField = new Field();
         this.graveyard = new Graveyard();
+        this.turn = 0;
+        this.stageInTurn = 0;
+        genDecks();
     }
 
-    // Generates a shuffled deck from scratch
-    public void genDecks() {
+    // Generates a shuffled deck from scratch, without this the game will not function
+    protected void genDecks() {
         CardJsonReader cjr = new CardJsonReader("CardDef.json");
         ArrayShuffler shuffler = new ArrayShuffler();
         int[] full = cjr.getIds();
@@ -34,5 +39,31 @@ public class PlayArea {
         System.arraycopy(full, firstHalf+1, half2, 0, secondHalf);
         this.deck1.setIds(half1);
         this.deck2.setIds(half2);
+    }
+
+    // Getters
+    public Hand getPlayerHand() {
+        return playerHand;
+    }
+    public Hand getOpponentHand() {
+        return opponentHand;
+    }
+    public Deck getDeck1() {
+        return deck1;
+    }
+    public Deck getDeck2() {
+        return deck2;
+    }
+    public Field getPlayerField() {
+        return playerField;
+    }
+    public Field getOpponentField() {
+        return opponentField;
+    }
+    public Graveyard getGraveyard() {
+        return graveyard;
+    }
+    public int getTurn() {
+        return turn;
     }
 }
