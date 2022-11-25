@@ -11,15 +11,21 @@ public class ArrayShuffle {
 
     public int[] shuffle(int[] idList) {
         Random r = new Random();
-        int[] temp0 = idList;
-        int[] temp1 = new int[idList.length-1];
+        int[] tempArray = idList;
         int[] result = new int[idList.length];
+        int pointer;
         for (int i = 0; i < result.length; i++) {
-            int pointer = r.nextInt(temp0.length);
-            System.out.println(pointer);
-            result[i] = temp0[pointer];
-
+            pointer = r.nextInt(0,tempArray.length);
+            result[i] = tempArray[pointer];
+            tempArray = removeId(tempArray, pointer);
         }
         return result;
+    }
+
+    private int[] removeId(int[] tempArray, int id) {
+        int[] newIds = new int[tempArray.length-1];
+        System.arraycopy(tempArray, 0, newIds, 0, id);
+        System.arraycopy(tempArray, id+1, newIds,id,newIds.length-id);
+        return newIds;
     }
 }

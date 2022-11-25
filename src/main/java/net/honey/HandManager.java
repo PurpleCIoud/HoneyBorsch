@@ -28,14 +28,10 @@ public class HandManager{
     }
 
     public void removeCard(int cardId) {
-        // going to remove card by ID
+        // #NewAndImproved
         int[] newIds = new int[hand.getSize()-1];
-        int[] oldIds = hand.getIds();
-        for (int i = 0; i < oldIds.length; i++) {
-            if (oldIds[i] != cardId) {
-                newIds[i] = oldIds[i];
-            }
-        }
+        System.arraycopy(hand.getIds(), 0, newIds, 0, cardId);
+        System.arraycopy(hand.getIds(), cardId+1, newIds,cardId,newIds.length-cardId);
         hand.setIds(newIds);
     }
 
