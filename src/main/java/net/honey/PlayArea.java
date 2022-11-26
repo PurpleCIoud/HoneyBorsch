@@ -1,26 +1,34 @@
 package net.honey;
 
+import java.util.Random;
+
 public class PlayArea {
-    private Hand playerHand;
-    private Hand opponentHand;
+    private Player player1;
+    private Player player2;
+    private Hand player1Hand;
+    private Hand player2Hand;
     private Deck deck1;
     private Deck deck2;
-    private Field playerField;
-    private Field opponentField;
+    private Field player1Field;
+    private Field player2Field;
     private Graveyard graveyard;
     private int turn;
     private int stageInTurn;
+    private byte firstPlayer;
 
     public PlayArea() {
-        this.playerHand = new Hand();
-        this.opponentHand = new Hand();
+        this.player1 = new Player(null);
+        this.player2 = new Player(null);
+        this.player1Hand = new Hand();
+        this.player2Hand = new Hand();
         this.deck1 = new Deck(new int[0]);
         this.deck2 = new Deck(new int[0]);
-        this.playerField = new Field();
-        this.opponentField = new Field();
+        this.player1Field = new Field();
+        this.player2Field = new Field();
         this.graveyard = new Graveyard();
         this.turn = 0;
         this.stageInTurn = 0;
+        this.firstPlayer = determineFirst();
         genDecks();
     }
 
@@ -41,12 +49,23 @@ public class PlayArea {
         this.deck2.setIds(half2);
     }
 
-    // Getters
-    public Hand getPlayerHand() {
-        return playerHand;
+    private byte determineFirst() {
+        Random r = new Random();
+        return (byte) r.nextInt(0,1);
     }
-    public Hand getOpponentHand() {
-        return opponentHand;
+
+    // Getters
+    public Player getPlayer1() {
+        return player1;
+    }
+    public Player getPlayer2() {
+        return player2;
+    }
+    public Hand getPlayer1Hand() {
+        return player1Hand;
+    }
+    public Hand getPlayer2Hand() {
+        return player2Hand;
     }
     public Deck getDeck1() {
         return deck1;
@@ -54,16 +73,54 @@ public class PlayArea {
     public Deck getDeck2() {
         return deck2;
     }
-    public Field getPlayerField() {
-        return playerField;
+    public Field getPlayer1Field() {
+        return player1Field;
     }
-    public Field getOpponentField() {
-        return opponentField;
+    public Field getPlayer2Field() {
+        return player2Field;
     }
     public Graveyard getGraveyard() {
         return graveyard;
     }
     public int getTurn() {
         return turn;
+    }
+    public int getStageInTurn() {
+        return stageInTurn;
+    }
+
+    // Setters
+    public void setPlayer1(Player player1) {
+        this.player1 = player1;
+    }
+    public void setPlayer2(Player player2) {
+        this.player2 = player2;
+    }
+    public void setPlayer1Hand(Hand player1Hand) {
+        this.player1Hand = player1Hand;
+    }
+    public void setPlayer2Hand(Hand player2Hand) {
+        this.player2Hand = player2Hand;
+    }
+    public void setDeck1(Deck deck1) {
+        this.deck1 = deck1;
+    }
+    public void setDeck2(Deck deck2) {
+        this.deck2 = deck2;
+    }
+    public void setPlayer1Field(Field player1Field) {
+        this.player1Field = player1Field;
+    }
+    public void setPlayer2Field(Field player2Field) {
+        this.player2Field = player2Field;
+    }
+    public void setGraveyard(Graveyard graveyard) {
+        this.graveyard = graveyard;
+    }
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
+    public void setStageInTurn(int stageInTurn) {
+        this.stageInTurn = stageInTurn;
     }
 }
