@@ -28,4 +28,12 @@ public class GraveyardManager {
         }
         return cards;
     }
+    public void addCard(int cardId) {
+        // funky way of adding a card
+        int[] newIds = new int[grave.getSize() + 1];
+        int[] oldIds = grave.getIds();
+        System.arraycopy(oldIds, 0, newIds, 0, newIds.length - 1);
+        newIds[grave.getSize() + 1] = cardId;
+        grave.setIds(newIds);
+    }
 }

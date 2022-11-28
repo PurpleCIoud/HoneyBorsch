@@ -4,9 +4,7 @@ import java.util.Random;
 
 public class PlayAreaManager {
     private final PlayArea playArea;
-    private FieldManager fm;
     private GraveyardManager gm;
-    private HandManager hm;
     private DeckManager dm;
     private PlayerManager pm;
 
@@ -45,19 +43,43 @@ public class PlayAreaManager {
         playArea.setFirstPlayer((byte) r.nextInt(0,1));
     }
 
+    private Player determineCurrentPlayer() {
+        Player p;
+        if ((playArea.getFirstPlayer() + playArea.getTurn())%2 == 0) {
+            p = playArea.getPlayer1();
+        } else {
+            p = playArea.getPlayer2();
+        }
+        return p;
+    }
+
+    private Player determineCurrentOpponent() {
+        Player p;
+        if ((playArea.getFirstPlayer() + playArea.getTurn())%2 == 1) {
+            p = playArea.getPlayer1();
+        } else {
+            p = playArea.getPlayer2();
+        }
+        return p;
+    }
+
     // place a card from the hand onto the field
-    private void actionProcessor(ActionType action) {
+    private void actionProcessor(ActionType action, Player player, Player opponent) {
+        pm.setPlayer(player);
         switch (action) {
             case SUMMON: {
                 pm.actionSummon();
                 break;
             }
             case PICKUP: {
-                pm.actionPickup();
+                pm.actionPickup(playArea.getDeck1(), playArea.getDeck2());
                 break;
             }
             case ATTACK: {
-                pm.actionAttack();
+                int id;
+                if ((id = pm.actionAttack(opponent)) != -1) {
+                    gm.addCard(id);
+                }
                 break;
             }
             case SKIP: {

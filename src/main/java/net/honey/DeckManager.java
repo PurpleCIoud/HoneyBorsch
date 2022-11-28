@@ -1,7 +1,7 @@
 package net.honey;
 
 public class DeckManager {
-    private final Deck deck;
+    private Deck deck;
     public DeckManager(Deck deck) {
         this.deck = deck;
     }
@@ -18,5 +18,13 @@ public class DeckManager {
     public void shuffleDeck() {
         ArrayShuffler shuffler = new ArrayShuffler();
         deck.setIds(shuffler.shuffle(deck.getIds()));
+    }
+
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
+
+    public Deck getDeck() {
+        return deck;
     }
 }
