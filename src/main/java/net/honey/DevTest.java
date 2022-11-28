@@ -52,8 +52,6 @@ public class DevTest {
     @Test
     // Test that Decks are properly generated
     public void testDeckBuilding() {
-        PlayArea pa = new PlayArea();
-        pa.genDecks();
     }
 
     @Test
