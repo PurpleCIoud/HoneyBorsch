@@ -14,7 +14,7 @@ public class ArrayShuffler {
         int[] result = new int[idList.length];
         int pointer;
         for (int i = 0; i < result.length; i++) {
-            pointer = r.nextInt(0,tempArray.length);
+            pointer = r.nextInt(tempArray.length);
             result[i] = tempArray[pointer];
             tempArray = removeId(tempArray, pointer);
         }

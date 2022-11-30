@@ -23,7 +23,7 @@ public class HandManager{
         int[] newIds = new int[hand.getSize()+1];
         int[] oldIds = hand.getIds();
         System.arraycopy(oldIds, 0, newIds, 0, newIds.length - 1);
-        newIds[hand.getSize()+1] = cardId;
+        newIds[hand.getSize()] = cardId;
         hand.setIds(newIds);
     }
 

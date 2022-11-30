@@ -1,6 +1,6 @@
 package net.honey;
 
-import java.util.Random;
+import java.util.ArrayList;
 
 public class PlayArea {
     private Player player1;
@@ -9,7 +9,7 @@ public class PlayArea {
     private Deck deck2;
     private Graveyard graveyard;
     private int turn;
-    private int stageInTurn;
+    private ArrayList<ActionType> actionsList;
     private byte firstPlayer;
 
     public PlayArea() {
@@ -19,7 +19,7 @@ public class PlayArea {
         this.deck2 = new Deck(new int[0]);
         this.graveyard = new Graveyard();
         this.turn = 0;
-        this.stageInTurn = 0;
+        this.actionsList = new ArrayList<>(0);
         this.firstPlayer = 0;
     }
 
@@ -42,8 +42,8 @@ public class PlayArea {
     public int getTurn() {
         return turn;
     }
-    public int getStageInTurn() {
-        return stageInTurn;
+    public ArrayList<ActionType> getActionsList() {
+        return actionsList;
     }
     public int getFirstPlayer() {
         return firstPlayer;
@@ -68,8 +68,8 @@ public class PlayArea {
     public void setTurn(int turn) {
         this.turn = turn;
     }
-    public void setStageInTurn(int stageInTurn) {
-        this.stageInTurn = stageInTurn;
+    public void setActionsList(ArrayList<ActionType> actionsList) {
+        this.actionsList = actionsList;
     }
     public void setFirstPlayer(byte firstPlayer) {
         this.firstPlayer = firstPlayer;

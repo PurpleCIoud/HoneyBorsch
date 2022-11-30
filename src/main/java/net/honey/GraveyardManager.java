@@ -33,7 +33,7 @@ public class GraveyardManager {
         int[] newIds = new int[grave.getSize() + 1];
         int[] oldIds = grave.getIds();
         System.arraycopy(oldIds, 0, newIds, 0, newIds.length - 1);
-        newIds[grave.getSize() + 1] = cardId;
+        newIds[grave.getSize()] = cardId;
         grave.setIds(newIds);
     }
 }

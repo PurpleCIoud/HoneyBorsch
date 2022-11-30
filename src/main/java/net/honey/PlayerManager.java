@@ -21,9 +21,9 @@ public class PlayerManager {
         HandManager hm = new HandManager(player.getHand());
         boolean run = true;
         while (run) {
-            System.out.println("What deck: 1, 2. 0 to view size of each");
-            switch (scanner.nextInt()) {
-                case 1: {
+            System.out.println("What deck: 1, 2. any other to view size of each");
+            switch (scanner.next()) {
+                case "1": {
                     if (one.getSize() >= 1) {
                         dm.setDeck(one);
                         hm.addCard(dm.pickCard());
@@ -33,7 +33,7 @@ public class PlayerManager {
                     }
                     break;
                 }
-                case 2: {
+                case "2": {
                     if (two.getSize() >= 1) {
                         dm.setDeck(two);
                         hm.addCard(dm.pickCard());

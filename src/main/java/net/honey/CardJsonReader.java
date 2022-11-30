@@ -59,7 +59,7 @@ public class CardJsonReader extends ResourceReader {
     public int[] getIds() {
         int[] ids = new int[getLength()];
         for (int i = 0; i < getLength(); i++) {
-            ids[i] = jn.get(i).asInt();
+            ids[i] = jn.get(i).get("id").asInt();
         }
         return ids;
     }

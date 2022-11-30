@@ -1,24 +1,31 @@
 package net.honey;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class PlayAreaManager {
     private final PlayArea playArea;
-    private GraveyardManager gm;
-    private DeckManager dm;
+    private final GraveyardManager gm;
     private PlayerManager pm;
 
-    public PlayAreaManager() {
+    public PlayAreaManager(Player p1, Player p2) {
         playArea = new PlayArea();
+        playArea.setPlayer1(p1);
+        playArea.setPlayer2(p2);
+        gm = new GraveyardManager(playArea.getGraveyard());
         genDecks();
         determineFirst();
+        allocateFirstTurn();
+        genFirstActions();
     }
 
-    public void allocateFirstTurn() {
+    private void allocateFirstTurn() {
         if (playArea.getFirstPlayer() == 0) {
             playArea.getPlayer1().setMyTurn(true);
+            playArea.getPlayer2().setMyTurn(false);
         } else {
             playArea.getPlayer2().setMyTurn(true);
+            playArea.getPlayer1().setMyTurn(false);
         }
     }
 
@@ -33,14 +40,14 @@ public class PlayAreaManager {
         int[] half1 = new int[firstHalf];
         int[] half2 = new int[secondHalf];
         System.arraycopy(full, 0, half1, 0, firstHalf);
-        System.arraycopy(full, firstHalf+1, half2, 0, secondHalf);
+        System.arraycopy(full, firstHalf, half2, 0, secondHalf);
         playArea.getDeck1().setIds(half1);
         playArea.getDeck2().setIds(half2);
     }
 
     private void determineFirst() {
         Random r = new Random();
-        playArea.setFirstPlayer((byte) r.nextInt(0,1));
+        playArea.setFirstPlayer((byte) (r.nextInt(10)%2));
     }
 
     private Player determineCurrentPlayer() {
@@ -63,8 +70,20 @@ public class PlayAreaManager {
         return p;
     }
 
-    // place a card from the hand onto the field
+    public void takeTurn(ActionType action) {
+        actionProcessor(action, determineCurrentPlayer(), determineCurrentOpponent());
+    }
+    private void genFirstActions() {
+        ArrayList<ActionType> actionTypes = new ArrayList<>(5);
+        actionTypes.add(ActionType.PICKUP);
+        actionTypes.add(ActionType.SUMMON);
+        actionTypes.add(ActionType.SUMMON);
+        actionTypes.add(ActionType.ATTACK);
+        playArea.setActionsList(actionTypes);
+    }
+    // Process actions.
     private void actionProcessor(ActionType action, Player player, Player opponent) {
+        pm = new PlayerManager();
         pm.setPlayer(player);
         switch (action) {
             case SUMMON: {
@@ -87,7 +106,9 @@ public class PlayAreaManager {
                 break;
             }
         }
-
     }
 
+    public PlayArea getPlayArea() {
+        return playArea;
+    }
 }
