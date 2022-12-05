@@ -9,13 +9,15 @@ public class HandManager{
     }
 
     public CardPOJO[] readHand() {
-        CardJsonReader cjr = new CardJsonReader("CardDef.json");
-        int[] ids = hand.getIds();
-        CardPOJO[] cards = new CardPOJO[hand.getSize()];
-        for (int i = 0; i <= ids.length; i++) {
-            cards[i] = cjr.getFromId(ids[i]);
-        }
-        return cards;
+        if (hand.getSize() != 0) {
+            CardJsonReader cjr = new CardJsonReader("CardDef.json");
+            int[] ids = hand.getIds();
+            CardPOJO[] cards = new CardPOJO[hand.getSize()];
+            for (int i = 0; i < ids.length; i++) {
+                cards[i] = cjr.getFromId(ids[i]);
+            }
+            return cards;
+        } else return new CardPOJO[0];
     }
 
     public void addCard(int cardId) {

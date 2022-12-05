@@ -102,7 +102,7 @@ public class PlayAreaManager {
                 break;
             }
             case SKIP: {
-                pm.actionSkip();
+                playArea.setActionsList(pm.actionSkip(playArea.getActionsList()));
                 break;
             }
         }

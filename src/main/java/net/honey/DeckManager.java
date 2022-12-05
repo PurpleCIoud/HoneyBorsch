@@ -11,7 +11,11 @@ public class DeckManager {
         int[] newIds = new int[deck.getSize()-1];
         System.arraycopy(oldIds, 0, newIds, 0, oldIds.length - 1);
         deck.setIds(newIds);
-        return oldIds[deck.getSize()-1];
+        if (newIds.length == 0) {
+            return oldIds[0];
+        } else {
+            return oldIds[deck.getSize()];
+        }
     }
 
     // Shuffle the deck

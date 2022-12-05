@@ -13,6 +13,12 @@ public class Application {
         playArea = new PlayAreaManager(player1,player2);
         gameLoop();
     }
+    private static void doAction(ActionType action) {
+        playArea.takeTurn(action);
+        ArrayList<ActionType> current = new ArrayList<>(playArea.getPlayArea().getActionsList());
+        current.remove(action);
+        playArea.getPlayArea().setActionsList(current);
+    }
 
     private static void gameLoop() {
         boolean run = true;
@@ -23,17 +29,14 @@ public class Application {
             switch (scanner.next().toLowerCase()) {
                 case "attack": {
                     if (playArea.getPlayArea().getActionsList().contains(ActionType.ATTACK)) {
-                        playArea.takeTurn(ActionType.ATTACK);
-                        ArrayList<ActionType> current = new ArrayList<>(playArea.getPlayArea().getActionsList());
-                        System.out.println(current);
-                        current.remove(ActionType.ATTACK);
-                        System.out.println(current);
-                        playArea.getPlayArea().setActionsList(current);
+                        doAction(ActionType.ATTACK);
                     }
                     break;
                 }
                 case "summon": {
-                    playArea.takeTurn(ActionType.SUMMON);
+                    if (playArea.getPlayArea().getActionsList().contains(ActionType.SUMMON)) {
+                        doAction(ActionType.SUMMON);
+                    }
                     break;
                 }
                 case "skip": {
@@ -41,13 +44,18 @@ public class Application {
                     break;
                 }
                 case "pickup": {
-                    playArea.takeTurn(ActionType.PICKUP);
+                    if (playArea.getPlayArea().getActionsList().contains(ActionType.PICKUP)) {
+                        doAction(ActionType.PICKUP);
+                    }
                     break;
                 }
                 case "view": {
                     System.out.println(Arrays.toString(playArea.getPlayArea().getPlayer1().getHand().getIds()));
                     System.out.println(Arrays.toString(playArea.getPlayArea().getPlayer2().getHand().getIds()));
                 }
+            }
+            if (playArea.getPlayArea().getActionsList().isEmpty()) {
+                run = false;
             }
         }
     }

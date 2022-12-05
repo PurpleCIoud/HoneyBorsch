@@ -25,4 +25,14 @@ public class FieldManager {
     public CardPOJO[][] readField() {
         return field.getField();
     }
+
+    public CardPOJO[] readFieldAsList() {
+        CardPOJO[] cardList = new CardPOJO[9];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                cardList[((3 * i) + (j))] = field.getPosition(i, j);
+            }
+        }
+        return cardList;
+    }
 }

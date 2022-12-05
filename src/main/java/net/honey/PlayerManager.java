@@ -1,6 +1,8 @@
 package net.honey;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class PlayerManager {
@@ -12,6 +14,28 @@ public class PlayerManager {
 
     // place a card onto field, or play a spell
     public void actionSummon() {
+        Scanner scanner = new Scanner(System.in);
+        HandManager hm = new HandManager(player.getHand());
+        FieldManager fm = new FieldManager(player.getField());
+        boolean run = player.getHand().getSize() != 0;
+        while (run) {
+            System.out.println("What card do you wish to summon?" + Arrays.toString(hm.readHand()));
+            while (!scanner.hasNextInt()) {
+               scanner.next();
+            }
+            int id = scanner.nextInt();
+            for (int ids : player.getHand().getIds()) {
+                if (id == ids) {
+                    while (!scanner.hasNextInt()) {
+                        scanner.next();
+                    }
+                    int row = scanner.nextInt();
+                    int col = scanner.nextInt();
+                    fm.readFieldAsList();
+                    break;
+                }
+            }
+        }
     }
 
     // get a new card from the deck , This implementation uses CLI.
@@ -102,7 +126,8 @@ public class PlayerManager {
     }
 
     // skip your turn
-    public void actionSkip() {
+    public ArrayList<ActionType> actionSkip(ArrayList<ActionType> actions) {
+        return new ArrayList<>(0);
     }
     // Setter
     public void setPlayer(Player player) {
