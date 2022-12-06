@@ -19,19 +19,25 @@ public class PlayerManager {
         FieldManager fm = new FieldManager(player.getField());
         boolean run = player.getHand().getSize() != 0;
         while (run) {
-            System.out.println("What card do you wish to summon?" + Arrays.toString(hm.readHand()));
-            while (!scanner.hasNextInt()) {
-               scanner.next();
+            System.out.println("What card do you wish to summon?");
+            for (CardPOJO card : hm.readHand()) {
+                System.out.println(card.getId() + " : "+ card.getName());
             }
             int id = scanner.nextInt();
             for (int ids : player.getHand().getIds()) {
                 if (id == ids) {
-                    while (!scanner.hasNextInt()) {
-                        scanner.next();
-                    }
+                    System.out.println("Where to summon");
                     int row = scanner.nextInt();
                     int col = scanner.nextInt();
-                    fm.readFieldAsList();
+                    CardPOJO[][] allCards = fm.readField();
+                    if (allCards[row][col] != null && allCards[row][col].getId() == 0) {
+                        System.out.println("Card already exists here");
+                        break;
+                    } else {
+                        fm.placeCard(id, row, col);
+                        System.out.println("Card placed!");
+                        run = false;
+                    }
                     break;
                 }
             }

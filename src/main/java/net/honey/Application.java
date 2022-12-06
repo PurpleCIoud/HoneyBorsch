@@ -52,6 +52,13 @@ public class Application {
                 case "view": {
                     System.out.println(Arrays.toString(playArea.getPlayArea().getPlayer1().getHand().getIds()));
                     System.out.println(Arrays.toString(playArea.getPlayArea().getPlayer2().getHand().getIds()));
+
+                    for (CardPOJO[] cardList :
+                         playArea.getPlayArea().getPlayer1().getField().getField()) {
+                        for (CardPOJO card : cardList) {
+                            System.out.print(card.getName() + card.getId());
+                        }
+                    }
                 }
             }
             if (playArea.getPlayArea().getActionsList().isEmpty()) {
