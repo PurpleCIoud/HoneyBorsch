@@ -14,29 +14,27 @@ public class Application {
         gameLoop();
     }
     private static void doAction(ActionType action) {
-        playArea.takeTurn(action);
-        ArrayList<ActionType> current = new ArrayList<>(playArea.getPlayArea().getActionsList());
-        current.remove(action);
-        playArea.getPlayArea().setActionsList(current);
+        if (playArea.getPlayArea().getActionsList().contains(action)) {
+            playArea.takeTurn(action);
+            ArrayList<ActionType> current = new ArrayList<>(playArea.getPlayArea().getActionsList());
+            current.remove(action);
+            playArea.getPlayArea().setActionsList(current);
+        }
     }
 
-    private static void gameLoop() {
-        boolean run = true;
-        while (run) {
+    private static void playTurn() {
+        boolean running = true;
+        while (running) {
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Current player is: "+ playArea.getPlayArea().getFirstPlayer());
-            System.out.println("Chose action to do, you have:"+ playArea.getPlayArea().getActionsList() + " or View Field");
+            System.out.println("Current player is: " + playArea.getPlayArea().getFirstPlayer());
+            System.out.println("Chose action to do, you have:" + playArea.getPlayArea().getActionsList() + " or View Field");
             switch (scanner.next().toLowerCase()) {
                 case "attack": {
-                    if (playArea.getPlayArea().getActionsList().contains(ActionType.ATTACK)) {
-                        doAction(ActionType.ATTACK);
-                    }
+                    doAction(ActionType.ATTACK);
                     break;
                 }
                 case "summon": {
-                    if (playArea.getPlayArea().getActionsList().contains(ActionType.SUMMON)) {
-                        doAction(ActionType.SUMMON);
-                    }
+                    doAction(ActionType.SUMMON);
                     break;
                 }
                 case "skip": {
@@ -44,9 +42,7 @@ public class Application {
                     break;
                 }
                 case "pickup": {
-                    if (playArea.getPlayArea().getActionsList().contains(ActionType.PICKUP)) {
-                        doAction(ActionType.PICKUP);
-                    }
+                    doAction(ActionType.PICKUP);
                     break;
                 }
                 case "view": {
@@ -54,16 +50,29 @@ public class Application {
                     System.out.println(Arrays.toString(playArea.getPlayArea().getPlayer2().getHand().getIds()));
 
                     for (CardPOJO[] cardList :
-                         playArea.getPlayArea().getPlayer1().getField().getField()) {
-                        for (CardPOJO card : cardList) {
-                            System.out.print(card.getName() + card.getId());
+                            playArea.getPlayArea().getPlayer1().getField().getField()) {
+                        CardPOJO card;
+                        for (CardPOJO cardPOJO : cardList) {
+                            card = cardPOJO;
+                            if (card != null) {
+                                System.out.print("|" + card.getName() + " : " + card.getId() + "|");
+                            } else {
+                                System.out.print("| Nothing |");
+                            }
                         }
+                        System.out.println();
                     }
                 }
             }
-            if (playArea.getPlayArea().getActionsList().isEmpty()) {
-                run = false;
-            }
+            running = !playArea.getPlayArea().getActionsList().isEmpty();
+        }
+    }
+
+    private static void gameLoop() {
+        boolean run = true;
+        while (run) {
+            playTurn();
+            playArea.finishTurn();
         }
     }
 }

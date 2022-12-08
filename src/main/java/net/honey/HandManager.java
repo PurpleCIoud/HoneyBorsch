@@ -31,10 +31,14 @@ public class HandManager{
 
     public void removeCard(int cardId) {
         // #NewAndImproved
-        int[] newIds = new int[hand.getSize()-1];
-        System.arraycopy(hand.getIds(), 0, newIds, 0, cardId);
-        System.arraycopy(hand.getIds(), cardId+1, newIds,cardId,newIds.length-cardId);
-        hand.setIds(newIds);
+        int[] oldHand = hand.getIds();
+        int[] newHand = new int[hand.getSize()-1];
+        int pointer = 0;
+        for (int i = 0; i < oldHand.length && oldHand[i] != cardId; i++) {
+            newHand[pointer] = oldHand[i];
+            pointer++;
+        }
+        hand.setIds(newHand);
     }
 
 }

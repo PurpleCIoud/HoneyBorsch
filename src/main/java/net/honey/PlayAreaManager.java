@@ -73,8 +73,22 @@ public class PlayAreaManager {
     public void takeTurn(ActionType action) {
         actionProcessor(action, determineCurrentPlayer(), determineCurrentOpponent());
     }
+    public void finishTurn() {
+        playArea.setTurn(playArea.getTurn()+1);
+        genDefaultActions();
+    }
     private void genFirstActions() {
+        ArrayList<ActionType> actionTypes = new ArrayList<>(4);
+        actionTypes.add(ActionType.PICKUP);
+        actionTypes.add(ActionType.PICKUP);
+        actionTypes.add(ActionType.SUMMON);
+        actionTypes.add(ActionType.SUMMON);
+        playArea.setActionsList(actionTypes);
+    }
+
+    private void genDefaultActions() {
         ArrayList<ActionType> actionTypes = new ArrayList<>(5);
+        actionTypes.add(ActionType.PICKUP);
         actionTypes.add(ActionType.PICKUP);
         actionTypes.add(ActionType.SUMMON);
         actionTypes.add(ActionType.SUMMON);

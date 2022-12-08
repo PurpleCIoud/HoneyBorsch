@@ -35,6 +35,7 @@ public class PlayerManager {
                         break;
                     } else {
                         fm.placeCard(id, row, col);
+                        hm.removeCard(id);
                         System.out.println("Card placed!");
                         run = false;
                     }
