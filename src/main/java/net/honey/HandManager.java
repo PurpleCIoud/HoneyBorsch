@@ -34,8 +34,11 @@ public class HandManager{
         int[] oldHand = hand.getIds();
         int[] newHand = new int[hand.getSize()-1];
         int pointer = 0;
-        for (int i = 0; i < oldHand.length && oldHand[i] != cardId; i++) {
-            newHand[pointer] = oldHand[i];
+        for (int j : oldHand) {
+            if (j == cardId) {
+                continue;
+            }
+            newHand[pointer] = j;
             pointer++;
         }
         hand.setIds(newHand);

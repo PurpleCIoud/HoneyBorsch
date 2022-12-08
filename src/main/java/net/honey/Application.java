@@ -48,7 +48,7 @@ public class Application {
                 case "view": {
                     System.out.println(Arrays.toString(playArea.getPlayArea().getPlayer1().getHand().getIds()));
                     System.out.println(Arrays.toString(playArea.getPlayArea().getPlayer2().getHand().getIds()));
-                    cardPrinter(playArea.determineCurrentPlayer().getField().getField());
+                    cardPrinterH(playArea.determineCurrentPlayer().getField().getField(),playArea.determineCurrentOpponent().getField().getField());
 
                 }
             }
@@ -64,7 +64,7 @@ public class Application {
         }
     }
 
-    private static void cardPrinter(CardPOJO[][] cards) {
+    private static void cardPrinterV(CardPOJO[][] cards) {
         for (CardPOJO[] cardList : cards) {
             CardPOJO card;
             System.out.println("========================================");
@@ -89,5 +89,52 @@ public class Application {
             System.out.printf("| HP :%6d | HP :%6d | HP :%6d |%n", hlt[0], hlt[1], hlt[2]);
             System.out.printf("| ATK:%6d | ATK:%6d | ATK:%6d |%n", att[0], att[1], att[2]);
         }
+        System.out.println("========================================");
+    }
+    private static void cardPrinterH(CardPOJO[][] your, CardPOJO[][] opponents) {
+        System.out.printf( "|Your field:                           |   |%-38s|%n", playArea.determineCurrentOpponent().getName()+"'s Field:");
+        CardPOJO card;
+
+        String[] names = new String[6];
+        int[] hlt = new int[6];
+        int[] att = new int[6];
+        for (int i = 0; i < 3; i++) {
+            CardPOJO[] cardListA = your[i];
+            CardPOJO[] cardListB = opponents[i];
+            int pointer = 0;
+            for (CardPOJO cardPOJO : cardListA) {
+                if ((card = cardPOJO) != null) {
+                    names[pointer] = card.getName();
+                    hlt[pointer] = card.getRunningHealth();
+                    att[pointer] = card.getRunningAttack();
+                } else {
+                    names[pointer] = "Nothing";
+                    hlt[pointer] = 0;
+                    att[pointer] = 0;
+                }
+                pointer++;
+            }
+            for (CardPOJO cardPOJO : cardListB) {
+                if ((card = cardPOJO) != null) {
+                    names[pointer] = card.getName();
+                    hlt[pointer] = card.getRunningHealth();
+                    att[pointer] = card.getRunningAttack();
+                } else {
+                    names[pointer] = "Nothing";
+                    hlt[pointer] = 0;
+                    att[pointer] = 0;
+                }
+                pointer++;
+            }
+            System.out.println("========================================   ========================================");
+            System.out.printf("| %-10s | %-10s | %-10s |   | %-10s | %-10s | %-10s |%n",
+                    names[0], names[1], names[2],names[3],names[4],names[5]);
+            System.out.printf("| HP :%6d | HP :%6d | HP :%6d |   | HP :%6d | HP :%6d | HP :%6d |%n",
+                    hlt[0], hlt[1], hlt[2], hlt[3], hlt[4], hlt[5]);
+            System.out.printf("| ATK:%6d | ATK:%6d | ATK:%6d |   | ATK:%6d | ATK:%6d | ATK:%6d |%n",
+                    att[0], att[1], att[2], att[3], att[4], att[5]);
+        }
+        System.out.println("========================================   ========================================");
+
     }
 }

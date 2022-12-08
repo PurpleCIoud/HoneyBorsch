@@ -35,4 +35,14 @@ public class FieldManager {
         }
         return cardList;
     }
+    public boolean isEmpty() {
+        boolean empty = true;
+        for (CardPOJO card :readFieldAsList()) {
+            if (card != null) {
+                empty = false;
+                break;
+            }
+        }
+        return empty;
+    }
 }

@@ -91,44 +91,50 @@ public class PlayerManager {
         Field oppField = opponent.getField();
         FieldManager oppFM = new FieldManager(oppField);
         Scanner scanner = new Scanner(System.in);
-        Field emptyField = new Field();
         while (run) {
             System.out.println("Select own card and opponents card to attack, if opponent has no cards select any");
-            System.out.print("Own row");
+            System.out.println("Own row: ");
             int mr = scanner.nextInt();
-            System.out.println("Own col");
+            System.out.println("Own col: ");
             int mc = scanner.nextInt();
-            if (ownField.getPosition(mr, mc) != null) { // is the card you picked exist?
-                if (oppFM.readField() != emptyField.getField()){ // is the opponent field empty?
-                    System.out.println("Opp Row");
-                    int or = scanner.nextInt();
-                    System.out.println("Opp col");
-                    int oc = scanner.nextInt();
-                    if (oppField.getPosition(or, oc) != null) { // is card you selected to attack exist?
-                        oppField.getPosition(or, oc).setRunningHealth(oppField.getPosition(or, oc)
-                                .getRunningHealth() - ownField.getPosition(mr, mc).getRunningAttack());
-                        if (oppField.getPosition(or, oc).getRunningHealth() <=0) { // check if card is alive.
-                            deadCard = oppFM.removeCard(or, oc);
-                            System.out.println("Card destroyed");
-                        } else {
-                            System.out.println("Card damaged for: " + ownField.getPosition(mr, mc).getRunningAttack());
-                        }
-                        run = false;
-                    } else {
-                        System.out.println("No card in that position!, Try again");
-                    }
-                } else {
-                    System.out.println("Attacking Directly:");
-                    int damage;
-                    opponent.setHealth(damage = ownField.getPosition(mr, mc).getRunningAttack());
-                    if (opponent.getHealth()<=0) {
-                        System.out.println("You hit the opponent for " + damage);
-                    }
-                }
-            } else {
-                System.out.println("No card on that position! Try again");
+            // is the card you picked exist?
+            if (ownField.getPosition(mr, mc) == null) {
+                System.out.println("No card on that position");
+                continue;
             }
-
+            // is the opponent field empty? If so attack Directly.
+            if (oppFM.isEmpty()){
+                System.out.println("Attacking Directly:");
+                int damage;
+                opponent.setHealth(opponent.getHealth()- (damage = ownField.getPosition(mr, mc).getRunningAttack()));
+                if (opponent.getHealth() > 0) {
+                    System.out.println("You hit the opponent for " + damage);
+                    System.out.println("Their HP is now: " + opponent.getHealth());
+                } else {
+                    System.out.println("your Opponent is defeated!");
+                }
+                run = false;
+                continue;
+            }
+            // ask for opponents card to attack
+            System.out.println("Opp Row: ");
+            int or = scanner.nextInt();
+            System.out.println("Opp col: ");
+            int oc = scanner.nextInt();
+            // is card you selected to attack exist?
+            if (oppField.getPosition(or, oc) == null) {
+                System.out.println("No card in that position!, Try again");
+                continue;
+            }
+            oppField.getPosition(or, oc).setRunningHealth(
+                    oppField.getPosition(or, oc).getRunningHealth()-ownField.getPosition(mr, mc).getRunningAttack());
+            if (oppField.getPosition(or, oc).getRunningHealth() <=0) { // check if card is alive.
+                deadCard = oppFM.removeCard(or, oc);
+                System.out.println("Card destroyed");
+            } else {
+                System.out.println("Card damaged for: " + ownField.getPosition(mr, mc).getRunningAttack());
+            }
+            run = false;
         }
         return deadCard;
     }
