@@ -26,7 +26,7 @@ public class Application {
         boolean running = true;
         while (running) {
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Current player is: " + playArea.getPlayArea().getFirstPlayer());
+            System.out.println("Current player is: " + playArea.determineCurrentPlayer().getName());
             System.out.println("Chose action to do, you have:" + playArea.getPlayArea().getActionsList() + " or View Field");
             switch (scanner.next().toLowerCase()) {
                 case "attack": {
@@ -48,20 +48,8 @@ public class Application {
                 case "view": {
                     System.out.println(Arrays.toString(playArea.getPlayArea().getPlayer1().getHand().getIds()));
                     System.out.println(Arrays.toString(playArea.getPlayArea().getPlayer2().getHand().getIds()));
+                    cardPrinter(playArea.determineCurrentPlayer().getField().getField());
 
-                    for (CardPOJO[] cardList :
-                            playArea.getPlayArea().getPlayer1().getField().getField()) {
-                        CardPOJO card;
-                        for (CardPOJO cardPOJO : cardList) {
-                            card = cardPOJO;
-                            if (card != null) {
-                                System.out.print("|" + card.getName() + " : " + card.getId() + "|");
-                            } else {
-                                System.out.print("| Nothing |");
-                            }
-                        }
-                        System.out.println();
-                    }
                 }
             }
             running = !playArea.getPlayArea().getActionsList().isEmpty();
@@ -73,6 +61,33 @@ public class Application {
         while (run) {
             playTurn();
             playArea.finishTurn();
+        }
+    }
+
+    private static void cardPrinter(CardPOJO[][] cards) {
+        for (CardPOJO[] cardList : cards) {
+            CardPOJO card;
+            System.out.println("========================================");
+            int pointer = 0;
+            String[] names = new String[3];
+            int[] hlt = new int[3];
+            int[] att = new int[3];
+            for (CardPOJO cardPOJO : cardList) {
+                if ((card = cardPOJO) != null) {
+                    names[pointer] = card.getName();
+                    hlt[pointer] = card.getRunningHealth();
+                    att[pointer] = card.getRunningAttack();
+
+                } else {
+                    names[pointer] = "Nothing";
+                    hlt[pointer] = 0;
+                    att[pointer] = 0;
+                }
+                pointer++;
+            }
+            System.out.printf("| %-10s | %-10s | %-10s |%n", names[0], names[1], names[2]);
+            System.out.printf("| HP :%6d | HP :%6d | HP :%6d |%n", hlt[0], hlt[1], hlt[2]);
+            System.out.printf("| ATK:%6d | ATK:%6d | ATK:%6d |%n", att[0], att[1], att[2]);
         }
     }
 }

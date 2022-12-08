@@ -50,7 +50,7 @@ public class PlayAreaManager {
         playArea.setFirstPlayer((byte) (r.nextInt(10)%2));
     }
 
-    private Player determineCurrentPlayer() {
+    public Player determineCurrentPlayer() {
         Player p;
         if ((playArea.getFirstPlayer() + playArea.getTurn())%2 == 0) {
             p = playArea.getPlayer1();
@@ -60,7 +60,7 @@ public class PlayAreaManager {
         return p;
     }
 
-    private Player determineCurrentOpponent() {
+    public Player determineCurrentOpponent() {
         Player p;
         if ((playArea.getFirstPlayer() + playArea.getTurn())%2 == 1) {
             p = playArea.getPlayer1();
@@ -71,6 +71,7 @@ public class PlayAreaManager {
     }
 
     public void takeTurn(ActionType action) {
+        System.out.println(determineCurrentPlayer().getName());
         actionProcessor(action, determineCurrentPlayer(), determineCurrentOpponent());
     }
     public void finishTurn() {

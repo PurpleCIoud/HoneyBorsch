@@ -105,12 +105,13 @@ public class PlayerManager {
                     System.out.println("Opp col");
                     int oc = scanner.nextInt();
                     if (oppField.getPosition(or, oc) != null) { // is card you selected to attack exist?
-                        oppField.getPosition(or, oc).setRunningHealth(ownField.getPosition(mr, mc).getRunningAttack());
+                        oppField.getPosition(or, oc).setRunningHealth(oppField.getPosition(or, oc)
+                                .getRunningHealth() - ownField.getPosition(mr, mc).getRunningAttack());
                         if (oppField.getPosition(or, oc).getRunningHealth() <=0) { // check if card is alive.
                             deadCard = oppFM.removeCard(or, oc);
                             System.out.println("Card destroyed");
                         } else {
-                            System.out.println("Card damaged");
+                            System.out.println("Card damaged for: " + ownField.getPosition(mr, mc).getRunningAttack());
                         }
                         run = false;
                     } else {
