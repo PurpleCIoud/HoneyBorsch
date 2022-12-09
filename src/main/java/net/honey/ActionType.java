@@ -5,4 +5,5 @@ public enum ActionType {
     PICKUP,
     ATTACK,
     SKIP,
+    VIEW,
 }

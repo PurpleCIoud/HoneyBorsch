@@ -29,6 +29,13 @@ public class PlayAreaManager {
         }
     }
 
+    public boolean getWinner() {
+        boolean win;
+        win = playArea.getPlayer2().getHealth() <= 0
+                || playArea.getPlayer1().getHealth() <= 0;
+        return win;
+    }
+
     private void genDecks() {
         CardJsonReader cjr = new CardJsonReader("CardDef.json");
         ArrayShuffler shuffler = new ArrayShuffler();
@@ -84,6 +91,7 @@ public class PlayAreaManager {
         actionTypes.add(ActionType.PICKUP);
         actionTypes.add(ActionType.SUMMON);
         actionTypes.add(ActionType.SUMMON);
+        actionTypes.add(ActionType.VIEW);
         playArea.setActionsList(actionTypes);
     }
 
@@ -94,7 +102,13 @@ public class PlayAreaManager {
         actionTypes.add(ActionType.SUMMON);
         actionTypes.add(ActionType.SUMMON);
         actionTypes.add(ActionType.ATTACK);
+        actionTypes.add(ActionType.VIEW);
         playArea.setActionsList(actionTypes);
+    }
+    private void refundAction(ActionType action) {
+        ArrayList<ActionType> temp = playArea.getActionsList();
+        temp.add(action);
+        playArea.setActionsList(temp);
     }
     // Process actions.
     private void actionProcessor(ActionType action, Player player, Player opponent) {
@@ -102,11 +116,20 @@ public class PlayAreaManager {
         pm.setPlayer(player);
         switch (action) {
             case SUMMON: {
-                pm.actionSummon();
+                if(pm.actionSummon()) {
+                    refundAction(ActionType.SUMMON);
+                }
+                break;
+            }
+            case VIEW: {
+                refundAction(ActionType.VIEW);
+                pm.actionView(opponent);
                 break;
             }
             case PICKUP: {
-                pm.actionPickup(playArea.getDeck1(), playArea.getDeck2());
+                if (pm.actionPickup(playArea.getDeck1(), playArea.getDeck2())) {
+                    refundAction(ActionType.PICKUP);
+                }
                 break;
             }
             case ATTACK: {
@@ -117,7 +140,7 @@ public class PlayAreaManager {
                 break;
             }
             case SKIP: {
-                playArea.setActionsList(pm.actionSkip(playArea.getActionsList()));
+                playArea.setActionsList(pm.actionSkip());
                 break;
             }
         }

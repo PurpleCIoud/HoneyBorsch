@@ -13,22 +13,38 @@ public class PlayerManager {
     }
 
     // place a card onto field, or play a spell
-    public void actionSummon() {
-        Scanner scanner = new Scanner(System.in);
+    public boolean actionSummon() {
+        boolean refund = false;
+        ValidInt vi = new ValidInt();
         HandManager hm = new HandManager(player.getHand());
         FieldManager fm = new FieldManager(player.getField());
-        boolean run = player.getHand().getSize() != 0;
+        boolean run = true;
         while (run) {
+            // check if there are cards in the hand
+            if (player.getHand().getSize() == 0) {
+                System.out.println("You cant play a card from an empty hand!");
+                refund = true;
+                run = false;
+                continue;
+            }
+
             System.out.println("What card do you wish to summon?");
             for (CardPOJO card : hm.readHand()) {
                 System.out.println(card.getId() + " : "+ card.getName());
             }
-            int id = scanner.nextInt();
+            int id = vi.nextInt();
             for (int ids : player.getHand().getIds()) {
                 if (id == ids) {
                     System.out.println("Where to summon");
-                    int row = scanner.nextInt();
-                    int col = scanner.nextInt();
+                    System.out.println("Row: ");
+                    int row = vi.nextInt(3);
+                    System.out.println("Column: ");
+                    int col = vi.nextInt(3);
+                    // validate Input
+                    if (!vi.valid(row, col)) {
+                        System.out.println("Invalid row or column! Try again");
+                        break;
+                    }
                     CardPOJO[][] allCards = fm.readField();
                     if (allCards[row][col] != null && allCards[row][col].getId() == 0) {
                         System.out.println("Card already exists here");
@@ -43,35 +59,41 @@ public class PlayerManager {
                 }
             }
         }
+        return refund;
+    }
+
+    private boolean deckSizeValidator(Deck deck) {
+        DeckManager dm = new DeckManager(null);
+        HandManager hm = new HandManager(player.getHand());
+        if (deck.getSize() >= 1) {
+            dm.setDeck(deck);
+            hm.addCard(dm.pickCard());
+            return false;
+        } else {
+            System.out.println("Deck empty.");
+            return true;
+        }
     }
 
     // get a new card from the deck , This implementation uses CLI.
-    public void actionPickup(Deck one, Deck two) {
+    public boolean actionPickup(Deck one, Deck two) {
+        boolean refund = false;
         Scanner scanner = new Scanner(System.in);
-        DeckManager dm = new DeckManager(null);
-        HandManager hm = new HandManager(player.getHand());
         boolean run = true;
         while (run) {
+            if (one.getSize() == 0 && two.getSize() == 0) {
+                run = false;
+                refund = true;
+                continue;
+            }
             System.out.println("What deck: 1, 2. any other to view size of each");
             switch (scanner.next()) {
                 case "1": {
-                    if (one.getSize() >= 1) {
-                        dm.setDeck(one);
-                        hm.addCard(dm.pickCard());
-                        run = false;
-                    } else {
-                        System.out.println("Deck empty.");
-                    }
+                    run = deckSizeValidator(one);
                     break;
                 }
                 case "2": {
-                    if (two.getSize() >= 1) {
-                        dm.setDeck(two);
-                        hm.addCard(dm.pickCard());
-                        run = false;
-                    } else {
-                        System.out.println("Deck empty.");
-                    }
+                    run = deckSizeValidator(two);
                     break;
                 }
                 default: {
@@ -81,7 +103,9 @@ public class PlayerManager {
                 }
             }
         }
+        return refund;
     }
+
 
     // attack a card, This is a CLI
     public int actionAttack(Player opponent) {
@@ -90,13 +114,19 @@ public class PlayerManager {
         Field ownField = player.getField();
         Field oppField = opponent.getField();
         FieldManager oppFM = new FieldManager(oppField);
-        Scanner scanner = new Scanner(System.in);
+        ValidInt validator = new ValidInt();
         while (run) {
             System.out.println("Select own card and opponents card to attack, if opponent has no cards select any");
             System.out.println("Own row: ");
-            int mr = scanner.nextInt();
+            int mr = validator.nextInt(3);
             System.out.println("Own col: ");
-            int mc = scanner.nextInt();
+            int mc = validator.nextInt(3);
+
+            // validate input
+            if (validator.valid(mr, mc)) {
+                System.out.println("Invalid Input!");
+                continue;
+            }
             // is the card you picked exist?
             if (ownField.getPosition(mr, mc) == null) {
                 System.out.println("No card on that position");
@@ -118,9 +148,15 @@ public class PlayerManager {
             }
             // ask for opponents card to attack
             System.out.println("Opp Row: ");
-            int or = scanner.nextInt();
+            int or = validator.nextInt(3);
             System.out.println("Opp col: ");
-            int oc = scanner.nextInt();
+            int oc = validator.nextInt(3);
+
+            // validate input
+            if (validator.valid(or, oc)) {
+                System.out.println("Invalid Input! Start again.");
+                continue;
+            }
             // is card you selected to attack exist?
             if (oppField.getPosition(or, oc) == null) {
                 System.out.println("No card in that position!, Try again");
@@ -139,9 +175,89 @@ public class PlayerManager {
         return deadCard;
     }
 
+    // view cards
+    public void actionView(Player opponent) {
+        System.out.println(Arrays.toString(player.getHand().getIds()));
+        cardPrinterH(opponent);
+    }
     // skip your turn
-    public ArrayList<ActionType> actionSkip(ArrayList<ActionType> actions) {
+    public ArrayList<ActionType> actionSkip() {
         return new ArrayList<>(0);
+    }
+
+    // print cards
+    private void cardPrinterH(Player opponent) {
+
+        System.out.printf( "|Your field:                           |   |%-38s|%n", opponent.getName()+"'s Field:");
+        CardPOJO card;
+
+        String[] names = new String[6];
+        int[] hlt = new int[6];
+        int[] att = new int[6];
+        for (int i = 0; i < 3; i++) {
+            CardPOJO[] cardListA = player.getField().getField()[i];
+            CardPOJO[] cardListB = opponent.getField().getField()[i];
+            int pointer = 0;
+            for (CardPOJO cardPOJO : cardListA) {
+                if ((card = cardPOJO) != null) {
+                    names[pointer] = card.getName();
+                    hlt[pointer] = card.getRunningHealth();
+                    att[pointer] = card.getRunningAttack();
+                } else {
+                    names[pointer] = "Nothing";
+                    hlt[pointer] = 0;
+                    att[pointer] = 0;
+                }
+                pointer++;
+            }
+            for (CardPOJO cardPOJO : cardListB) {
+                if ((card = cardPOJO) != null) {
+                    names[pointer] = card.getName();
+                    hlt[pointer] = card.getRunningHealth();
+                    att[pointer] = card.getRunningAttack();
+                } else {
+                    names[pointer] = "Nothing";
+                    hlt[pointer] = 0;
+                    att[pointer] = 0;
+                }
+                pointer++;
+            }
+            System.out.println("========================================   ========================================");
+            System.out.printf("| %-10s | %-10s | %-10s |   | %-10s | %-10s | %-10s |%n",
+                    names[0], names[1], names[2],names[3],names[4],names[5]);
+            System.out.printf("| HP :%6d | HP :%6d | HP :%6d |   | HP :%6d | HP :%6d | HP :%6d |%n",
+                    hlt[0], hlt[1], hlt[2], hlt[3], hlt[4], hlt[5]);
+            System.out.printf("| ATK:%6d | ATK:%6d | ATK:%6d |   | ATK:%6d | ATK:%6d | ATK:%6d |%n",
+                    att[0], att[1], att[2], att[3], att[4], att[5]);
+        }
+        System.out.println("========================================   ========================================");
+    }
+    private static void cardPrinterV(CardPOJO[][] cards) {
+        for (CardPOJO[] cardList : cards) {
+            CardPOJO card;
+            System.out.println("========================================");
+            int pointer = 0;
+            String[] names = new String[3];
+            int[] hlt = new int[3];
+            int[] att = new int[3];
+            for (CardPOJO cardPOJO : cardList) {
+                if ((card = cardPOJO) != null) {
+                    names[pointer] = card.getName();
+                    hlt[pointer] = card.getRunningHealth();
+                    att[pointer] = card.getRunningAttack();
+
+                } else {
+                    names[pointer] = "Nothing";
+                    hlt[pointer] = 0;
+                    att[pointer] = 0;
+                }
+                pointer++;
+            }
+            System.out.printf("| %-10s | %-10s | %-10s |%n", names[0], names[1], names[2]);
+            System.out.printf("| HP :%6d | HP :%6d | HP :%6d |%n", hlt[0], hlt[1], hlt[2]);
+            System.out.printf("| ATK:%6d | ATK:%6d | ATK:%6d |%n", att[0], att[1], att[2]);
+        }
+        System.out.println("========================================");
     }
     // Setter
     public void setPlayer(Player player) {
