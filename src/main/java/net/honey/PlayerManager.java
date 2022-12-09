@@ -27,53 +27,51 @@ public class PlayerManager {
                 run = false;
                 continue;
             }
-
+            // Show player what cards they can play
             System.out.println("What card do you wish to summon?");
             for (CardPOJO card : hm.readHand()) {
                 System.out.println(card.getId() + " : "+ card.getName());
             }
             int id = vi.nextInt();
-            for (int ids : player.getHand().getIds()) {
-                if (id == ids) {
-                    System.out.println("Where to summon");
-                    System.out.println("Row: ");
-                    int row = vi.nextInt(3);
-                    System.out.println("Column: ");
-                    int col = vi.nextInt(3);
-                    // validate Input
-                    if (!vi.valid(row, col)) {
-                        System.out.println("Invalid row or column! Try again");
-                        break;
-                    }
-                    CardPOJO[][] allCards = fm.readField();
-                    if (allCards[row][col] != null && allCards[row][col].getId() == 0) {
-                        System.out.println("Card already exists here");
-                        break;
-                    } else {
-                        fm.placeCard(id, row, col);
-                        hm.removeCard(id);
-                        System.out.println("Card placed!");
-                        run = false;
-                    }
+
+            // validate input
+            if (!vi.valid(id)) {
+                continue;
+            }
+            // internal loop for summoning
+            int ids;
+            for (int i = 0; i < player.getHand().getSize(); i++) {
+                ids = player.getHand().getIds()[i];
+                if (ids != id) {
+                    continue;
+                }
+                System.out.println("Where to summon");
+                System.out.println("Row: ");
+                int row = vi.nextInt(3);
+                System.out.println("Column: ");
+                int col = vi.nextInt(3);
+                // validate Input
+                if (!vi.valid(row, col)) {
+                    System.out.println("Invalid row or column! Try again");
                     break;
                 }
+                // check if card exists on that location
+                CardPOJO[][] allCards = fm.readField();
+                if (allCards[row][col] != null && allCards[row][col].getId() != -1) {
+                    System.out.println("Card already exists here");
+                    refund = true;
+                } else {
+                    fm.placeCard(id, row, col);
+                    hm.removeCard(id);
+                    System.out.println("Card placed!");
+                }
+                run = false;
             }
         }
         return refund;
     }
 
-    private boolean deckSizeValidator(Deck deck) {
-        DeckManager dm = new DeckManager(null);
-        HandManager hm = new HandManager(player.getHand());
-        if (deck.getSize() >= 1) {
-            dm.setDeck(deck);
-            hm.addCard(dm.pickCard());
-            return false;
-        } else {
-            System.out.println("Deck empty.");
-            return true;
-        }
-    }
+
 
     // get a new card from the deck , This implementation uses CLI.
     public boolean actionPickup(Deck one, Deck two) {
@@ -184,7 +182,19 @@ public class PlayerManager {
     public ArrayList<ActionType> actionSkip() {
         return new ArrayList<>(0);
     }
-
+    // validates deck size duh.
+    private boolean deckSizeValidator(Deck deck) {
+        DeckManager dm = new DeckManager(null);
+        HandManager hm = new HandManager(player.getHand());
+        if (deck.getSize() >= 1) {
+            dm.setDeck(deck);
+            hm.addCard(dm.pickCard());
+            return false;
+        } else {
+            System.out.println("Deck empty.");
+            return true;
+        }
+    }
     // print cards
     private void cardPrinterH(Player opponent) {
 
@@ -232,6 +242,7 @@ public class PlayerManager {
         }
         System.out.println("========================================   ========================================");
     }
+    @SuppressWarnings("unused")
     private static void cardPrinterV(CardPOJO[][] cards) {
         for (CardPOJO[] cardList : cards) {
             CardPOJO card;
@@ -259,6 +270,7 @@ public class PlayerManager {
         }
         System.out.println("========================================");
     }
+
     // Setter
     public void setPlayer(Player player) {
         this.player = player;
