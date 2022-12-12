@@ -177,6 +177,7 @@ public class PlayerManager {
     public void actionView(Player opponent) {
         System.out.println(Arrays.toString(player.getHand().getIds()));
         cardPrinterH(opponent);
+        handPrinter();
     }
     // skip your turn
     public ArrayList<ActionType> actionSkip() {
@@ -243,7 +244,7 @@ public class PlayerManager {
         System.out.println("========================================   ========================================");
     }
     @SuppressWarnings("unused")
-    private static void cardPrinterV(CardPOJO[][] cards) {
+    private void cardPrinterV(CardPOJO[][] cards) {
         for (CardPOJO[] cardList : cards) {
             CardPOJO card;
             System.out.println("========================================");
@@ -269,6 +270,60 @@ public class PlayerManager {
             System.out.printf("| ATK:%6d | ATK:%6d | ATK:%6d |%n", att[0], att[1], att[2]);
         }
         System.out.println("========================================");
+    }
+
+    // first attempt at making a stable card printer
+    private void handPrinter() {
+        String border = "========================";
+        String seperator = "------------------------";
+        int size = player.getHand().getSize();
+
+        String[] names = new String[size];
+        int[] healths = new int[size];
+        int[] attack = new int[size];
+        String[] desc = new String[size];
+
+        HandManager hm = new HandManager(player.getHand());
+        int i = 0;
+        for (CardPOJO card : hm.readHand()) {
+            names[i] = card.getName();
+            healths[i] = card.getBaseHealth();
+            attack[i] = card.getBaseAttack();
+            desc[i] = card.getDescription();
+            i++;
+        }
+
+        System.out.printf("%n");
+        for (int j = 0; j < size; j++) {
+            System.out.printf(border + "   ");
+        }
+        System.out.println();
+        for (String name : names) {
+            System.out.printf("| %-20s |   ", name);
+        }
+        System.out.println();
+        for (int hp : healths) {
+            System.out.printf("| HP : %15d |   ", hp);
+        }
+        System.out.println();
+        for (int atk : attack) {
+            System.out.printf("| ATK: %15d |   ", atk);
+        }
+        System.out.println();
+        for (int j = 0; j < size; j++) {
+            System.out.printf(seperator + "   ");
+        }
+        System.out.println();
+        for (String description : desc) {
+            System.out.printf("| %-20s |   ", description);
+        }
+        System.out.println();
+        for (int j = 0; j < size; j++) {
+            System.out.printf(border + "   ");
+        }
+        System.out.println();
+
+
     }
 
     // Setter
