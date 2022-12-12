@@ -34,5 +34,59 @@
     "attackType": "POISON",
     "image": "notnull",
     "description": "I am Ok"
+  },
+  {
+
+  },
+  {
+    "id": 5,
+    "name": "Cat",
+    "baseHealth": 40,
+    "baseAttack": 100,
+    "attackType": "DIRECT",
+    "image": "notnull",
+    "description": "I am a Cat"
+  },
+  {
+    "id": 6,
+    "name": "Snake",
+    "baseHealth": 40,
+    "baseAttack": 40,
+    "attackType": "POISON",
+    "image": "notnull",
+    "description": "I am a venom snake!"
+  },
+  {
+    "id": 7,
+    "name": "Bird",
+    "baseHealth": 30,
+    "baseAttack": 20,
+    "attackType": "LINE",
+    "image": "notnull",
+    "description": "I am a bomber bird"
+  },
+  {
+    "id": 8,
+    "name": "Buff spell",
+    "baseHealth": 0,
+    "baseAttack": 0,
+    "attackType": "SPELL",
+    "image": "notnull",
+    "description": "I buff attack by 10",
+    "effect": {
+      "attackBoost": 10
+    }
+  },
+  {
+    "id": 9,
+    "name": "Healing spell",
+    "baseHealth": 0,
+    "baseAttack": 0,
+    "attackType": "SPELL",
+    "image": "notnull",
+    "description": "I heal by 50",
+    "effect": {
+      "healthBoost": 50
+    }
   }
 ]

@@ -74,6 +74,7 @@ public class PlayerManager {
 
 
     // get a new card from the deck , This implementation uses CLI.
+    // @TODO Make selecting from decks more nicer
     public boolean actionPickup(Deck one, Deck two) {
         boolean refund = false;
         Scanner scanner = new Scanner(System.in);
@@ -106,6 +107,9 @@ public class PlayerManager {
 
 
     // attack a card, This is a CLI
+    // @TODO Make so that cards can only attack from certain positions
+    // @TODO Special attacks need to be sorted out
+    // @TODO SPELLS need to be implemented!
     public int actionAttack(Player opponent) {
         boolean run = true;
         int deadCard = -1;

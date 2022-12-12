@@ -7,5 +7,6 @@ public enum AttackType {
     POISON,
     LINE,
     NONE,
+    SPELL,
     ERROR,
 }
