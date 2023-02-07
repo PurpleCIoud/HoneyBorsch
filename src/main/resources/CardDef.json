@@ -36,7 +36,13 @@
     "description": "I am Ok"
   },
   {
-
+    "id": 4,
+    "name": "God",
+    "baseHealth": 100,
+    "baseAttack": 100,
+    "attackType": "POISON",
+    "image": "notnull",
+    "description": "I am Godlike"
   },
   {
     "id": 5,
