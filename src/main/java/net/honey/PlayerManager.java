@@ -125,7 +125,7 @@ public class PlayerManager {
             int mc = validator.nextInt(3);
 
             // validate input
-            if (validator.valid(mr, mc)) {
+            if (!validator.valid(mr, mc)) {
                 System.out.println("Invalid Input!");
                 continue;
             }
@@ -155,7 +155,7 @@ public class PlayerManager {
             int oc = validator.nextInt(3);
 
             // validate input
-            if (validator.valid(or, oc)) {
+            if (!validator.valid(or, oc)) {
                 System.out.println("Invalid Input! Start again.");
                 continue;
             }
@@ -164,8 +164,10 @@ public class PlayerManager {
                 System.out.println("No card in that position!, Try again");
                 continue;
             }
-            oppField.getPosition(or, oc).setRunningHealth(
-                    oppField.getPosition(or, oc).getRunningHealth()-ownField.getPosition(mr, mc).getRunningAttack());
+            AttackAction attack = new AttackAction(ownField.getPosition(mr,mc), mr, mc);
+            oppField.setPosition(attack.directAttack(oppField.getField(), or, oc), or, oc);
+//            oppField.getPosition(or, oc).setRunningHealth(
+//                    oppField.getPosition(or, oc).getRunningHealth()-ownField.getPosition(mr, mc).getRunningAttack());
             if (oppField.getPosition(or, oc).getRunningHealth() <=0) { // check if card is alive.
                 deadCard = oppFM.removeCard(or, oc);
                 System.out.println("Card destroyed");
